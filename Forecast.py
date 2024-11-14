@@ -31,7 +31,7 @@ st.set_page_config(page_title="Forecast Tool",
 @st.cache_data(persist=False,
           show_spinner=True)
 #function to load data in csv
-def load_data():
+def load_csv():
     df_input = pd.DataFrame()  # Initializing empty DataFrame
     
     # Load CSV with the correct date parser
