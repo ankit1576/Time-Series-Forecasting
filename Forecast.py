@@ -31,16 +31,13 @@ st.set_page_config(page_title="Forecast Tool",
 @st.cache_data(persist=False,
           show_spinner=True)
 #function to load data in csv
-def load_csv():
+def load_data():
     df_input = pd.DataFrame()  # Initializing empty DataFrame
     
-    # Define the correct date format (day-first format)
-    date_format = "%d-%m-%Y %H:%M"
-    
-    # Load CSV with the date parser
+    # Load CSV with the correct date parser
     df_input = pd.read_csv(input, sep=None, engine='python', encoding='utf-8',
                            parse_dates=True,
-                           date_parser=lambda x: pd.to_datetime(x, format=date_format),
+                           date_parser=lambda x: pd.to_datetime(x, format="%d-%m-%Y %H:%M", dayfirst=True),
                            infer_datetime_format=True)  # You can also remove infer_datetime_format if you want to strictly use the custom format
     
     return df_input
