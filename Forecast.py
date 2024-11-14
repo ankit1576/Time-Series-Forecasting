@@ -49,6 +49,7 @@ def prep_data(df):
     st.markdown("The selected date column is now labeled as **ds** and the values columns as **y**")
     df_input = df_input[['ds','y']]
     df_input =  df_input.sort_values(by='ds',ascending=True)
+    df_input['ds'] = pd.to_datetime(df_input['ds'], infer_datetime_format=True)
     return df_input
 
 #plot chart using plotly
