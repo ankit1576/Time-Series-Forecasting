@@ -24,7 +24,12 @@ markdown-it-py==3.0.0
 MarkupSafe==2.1.5
 matplotlib==3.9.0
 mdurl==0.1.2
-numpy==2.0.1
+# Essential packages for pystan compatibility
+numpy>=1.21  # Adjust version if needed for compatibility
+Cython>=0.22
+# pystan and streamlit
+pystan>=2.19.1.1  # Compatible version for many setups
+streamlit>=1.0.0
 packaging==24.1
 pandas==2.2.2
 pillow==10.4.0
@@ -35,7 +40,6 @@ pyarrow==17.0.0
 pydeck==0.9.1
 Pygments==2.18.0
 pyparsing==3.1.2
-pystan==2.19.1.1
 python-dateutil==2.9.0.post0
 pytz==2024.1
 referencing==0.35.1
