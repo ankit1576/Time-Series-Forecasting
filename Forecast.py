@@ -32,26 +32,40 @@ st.set_page_config(page_title="Forecast Tool",
           show_spinner=True)
 #function to load data in csv
 def load_csv():
+    date_format="%d-%m-%Y %H:%M"
     df_input = pd.DataFrame()  # Initializing empty DataFrame
     
     # Load CSV with the correct date parser
-    df_input = pd.read_csv(input, sep=None, engine='python', encoding='utf-8',
+    df_input = pd.read_csv(input_file, sep=None, engine='python', encoding='utf-8',
                            parse_dates=True,
-                           date_parser=lambda x: pd.to_datetime(x, format="%d-%m-%Y %H:%M", dayfirst=True),
-                           infer_datetime_format=True)  # You can also remove infer_datetime_format if you want to strictly use the custom format
+                           date_parser=lambda x: pd.to_datetime(x, format=date_format, dayfirst=True),
+                           infer_datetime_format=False)  # Ensure no automatic inference, use the custom date parser
+    
+    # Standardize date format for all date columns if required
+    for col in df_input.select_dtypes(include=['object']).columns:
+        try:
+            df_input[col] = pd.to_datetime(df_input[col], format=date_format, dayfirst=True)
+        except:
+            continue  # Skip columns that are not date-related
     
     return df_input
 
 
 def prep_data(df):
-
-    df_input = df.rename({date_col:"ds",metric_col:"y"},errors='raise',axis=1)
-    st.markdown("The selected date column is now labeled as **ds** and the values columns as **y**")
-    df_input = df_input[['ds','y']]
-    df_input =  df_input.sort_values(by='ds',ascending=True)
-    df_input['ds'] = pd.to_datetime(df_input['ds'], infer_datetime_format=True)
+    # Rename the columns correctly
+    df_input = df.rename({date_col: "ds", metric_col: "y"}, errors='raise', axis=1)
+    
+    # Display message in Streamlit
+    st.markdown("The selected date column is now labeled as **ds** and the values column as **y**")
+    
+    # Select only the necessary columns and sort by the 'ds' (date) column
+    df_input = df_input[['ds', 'y']]
+    df_input = df_input.sort_values(by='ds', ascending=True)
+    
+    # Ensure the date column is in the correct datetime format
+    df_input['ds'] = pd.to_datetime(df_input['ds'], format="%d-%m-%Y %H:%M", dayfirst=True)
+    
     return df_input
-
 #plot chart using plotly
 def plot_raw_data(df):
     fig=go.Figure()
