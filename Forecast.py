@@ -36,7 +36,7 @@ def load_csv():
     df_input = pd.DataFrame()  # Initializing empty DataFrame
     
     # Load CSV with the correct date parser
-    df_input = pd.read_csv(input_file, sep=None, engine='python', encoding='utf-8',
+    df_input = pd.read_csv(input, sep=None, engine='python', encoding='utf-8',
                            parse_dates=True,
                            date_parser=lambda x: pd.to_datetime(x, format=date_format, dayfirst=True),
                            infer_datetime_format=False)  # Ensure no automatic inference, use the custom date parser
