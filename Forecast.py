@@ -3,7 +3,6 @@ import pandas as pd
 import numpy as np
 from pyarrow.interchange import column
 np.float_ = np.float64
-import pystan
 from prophet import Prophet
 from prophet.plot import add_changepoints_to_plot
 from prophet.diagnostics import cross_validation
